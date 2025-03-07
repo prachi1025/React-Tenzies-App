@@ -25,7 +25,7 @@ export default function App() {
   }, []);
 
 
-  const [randomDie, setRandomDie] = React.useState(generateAllNewDice)
+  const [randomDie, setRandomDie] = React.useState(() => generateAllNewDice()) //lazy state initilization
 
   const gameWon = randomDie.every(die => die.isHeld) && randomDie.every(die => die.value === randomDie[0].value)
 
@@ -52,8 +52,12 @@ export default function App() {
   const dieElements = randomDie.map(dieObject => <Die key={dieObject.id} id={dieObject.id} value={dieObject.value} isHeld={dieObject.isHeld} hold={hold} />)
 
   function rollDie() {
-    setRandomDie(prevRandomDie => 
+    if (!gameWon) {
+      setRandomDie(prevRandomDie => 
       prevRandomDie.map(die => die.isHeld === false ? {...die, value: Math.floor(Math.random() * 6) + 1} : die))
+    } else {
+      setRandomDie(generateAllNewDice())
+    }
   }
 
   return (
