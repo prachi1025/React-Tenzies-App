@@ -8,7 +8,6 @@ export default function App() {
     setRandomDie(prevRandomDie => 
       prevRandomDie.map(die => die.id === id ? {...die, isHeld: !die.isHeld} : die)
     )
-    console.log(id)
   }
 
   function generateAllNewDice() {
@@ -30,8 +29,10 @@ export default function App() {
   const dieElements = randomDie.map(dieObject => <Die key={dieObject.id} id={dieObject.id} value={dieObject.value} isHeld={dieObject.isHeld} hold={hold} />)
 
   function rollDie() {
-    setRandomDie(generateAllNewDice)
+    setRandomDie(prevRandomDie => 
+      prevRandomDie.map(die => die.isHeld === false ? {...die, value: Math.floor(Math.random() * 6) + 1} : die))
   }
+
   return (
     <main>
       <section className = "die-container">
