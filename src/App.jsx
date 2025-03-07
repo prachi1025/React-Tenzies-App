@@ -15,11 +15,15 @@ export default function App() {
   
   const dieElements = randomDie.map(dieValue => <Die value={dieValue} />)
 
+  function rollDie() {
+    setRandomDie(generateAllNewDice)
+  }
   return (
     <main>
       <section className = "die-container">
         {dieElements}
       </section>
+      <button className="roll" onClick={rollDie}><span>Roll</span></button>
     </main>
   )
 }
