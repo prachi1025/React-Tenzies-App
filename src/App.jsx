@@ -4,6 +4,13 @@ import {nanoid} from "nanoid"
 
 export default function App() {
 
+  function hold(id) {
+    setRandomDie(prevRandomDie => 
+      prevRandomDie.map(die => die.id === id ? {...die, isHeld: !die.isHeld} : die)
+    )
+    console.log(id)
+  }
+
   function generateAllNewDice() {
     const arrayValue = []
     for (let i = 0; i < 10; i++) {
@@ -20,7 +27,7 @@ export default function App() {
 
   const [randomDie, setRandomDie] = React.useState(generateAllNewDice)
   
-  const dieElements = randomDie.map(dieObject => <Die key={dieObject.id} value={dieObject.value} />)
+  const dieElements = randomDie.map(dieObject => <Die key={dieObject.id} id={dieObject.id} value={dieObject.value} isHeld={dieObject.isHeld} hold={hold} />)
 
   function rollDie() {
     setRandomDie(generateAllNewDice)

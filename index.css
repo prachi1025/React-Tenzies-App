@@ -91,3 +91,7 @@ button.roll {
     font-weight: 700;
     line-height: normal;
 }
+
+.isHeld {
+    background: #59E391 !important;
+}
