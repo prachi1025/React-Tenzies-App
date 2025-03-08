@@ -27,9 +27,31 @@ export default function App() {
 
   const [randomDie, setRandomDie] = React.useState(() => generateAllNewDice()) //lazy state initilization
 
+  const [isGameRunning, setIsGameRunning] = React.useState(false);
+  const [time, setTime] = React.useState(0);
+
+  // 🎯 Timer Logic
+  React.useEffect(() => {
+    let timer;
+    if (isGameRunning) {
+      timer = setInterval(() => {
+        setTime(prevTime => prevTime + 1);
+      }, 1000);
+    }
+    return () => clearInterval(timer);
+  }, [isGameRunning]);
+
   const gameWon = randomDie.every(die => die.isHeld) && randomDie.every(die => die.value === randomDie[0].value)
 
+  React.useEffect(() => {
+    if (gameWon) {
+      setIsGameRunning(false);
+    }
+  }, [gameWon]);
+
   function hold(id) {
+    if (!isGameRunning) setIsGameRunning(true); // Start timer when first die is held
+
     setRandomDie(prevRandomDie => 
       prevRandomDie.map(die => die.id === id ? {...die, isHeld: !die.isHeld} : die)
     )
@@ -57,6 +79,8 @@ export default function App() {
       prevRandomDie.map(die => die.isHeld === false ? {...die, value: Math.floor(Math.random() * 6) + 1} : die))
     } else {
       setRandomDie(generateAllNewDice())
+      setTime(0); // Reset timer
+      setIsGameRunning(false);
     }
   }
 
@@ -66,6 +90,7 @@ export default function App() {
       <div className="container">
         <h1 className="title">Tenzies</h1>
       <p className="instructions">Roll until all dice are the same. Click each die to freeze it at its current value between rolls.</p>
+      <h2 className="timer">⏳ Time: {time} seconds</h2>
       <section className = "die-container">
         {dieElements}
       </section>

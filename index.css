@@ -134,3 +134,15 @@ button.roll {
     margin-top: 10px;
     margin-bottom: 0px;
 }
+
+h2.timer {
+    color: #2B283A;
+    text-align: center;
+    font-family: Karla;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    letter-spacing: -0.768px;
+    margin-bottom: 0%;
+}
